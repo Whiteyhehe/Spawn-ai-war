@@ -293,52 +293,44 @@ MiscTab:AddButton({
 })
 
 MiscTab:AddTextbox({
-    Name = "Hitbox Size",
-    Default = "25", -- Default value for size
+    Name = "Hitbox Size (e.g., 20)",
+    Default = "20",
     TextDisappear = true,
-    Callback = function(input)
-        local reachValue = tonumber(input)
+    Callback = function(value)
+        local sizeValue = tonumber(value) -- Convert the input to a number
 
-        -- Check if the input is a valid number
-        if reachValue then
-            -- Create a button to activate the Item Hitbox feature
-            MiscTab:AddButton({
-                Name = "Item Hitbox",
-                Callback = function()
-                    -- Iterate through each child in the player's Backpack
-                    for _, v in pairs(player.Backpack:GetChildren()) do
-                        if v:IsA("Tool") and v.Name == "Blue Sword" then
-                            local handle = v:FindFirstChild("Handle")
+        if sizeValue then
+            local player = game.Players.LocalPlayer
 
-                            if handle then
-                                -- Create a Vector3 using the input value for all dimensions
-                                local sizeVector = Vector3.new(reachValue, reachValue, reachValue)
+            -- Iterate through each child in the player's Backpack
+            for _, v in pairs(player.Backpack:GetChildren()) do
+                if v:IsA("Tool") and v.Name == "Blue Sword" then
+                    local handle = v:FindFirstChild("Handle")
 
-                                -- Change the size of the Handle to the specified size
-                                handle.Size = sizeVector -- Set the desired size for the hitbox
-                                handle.Massless = true -- Optional: Make the handle massless
-                                handle.Transparency = 1 -- Make the handle transparent
+                    if handle then
+                        -- Change the size of the Handle to the specified size
+                        handle.Size = Vector3.new(sizeValue, sizeValue, sizeValue) -- Set the desired size for the hitbox
+                        handle.Massless = true -- Optional: Make the handle massless
+                        handle.Transparency = 1 -- Make the handle transparent
 
-                                -- Create and configure the SelectionBox
-                                local selectionBox = Instance.new("SelectionBox")
-                                selectionBox.Adornee = handle
-                                selectionBox.Color3 = Color3.new(0, 0.313725, 0.47451) -- Set the color of the selection box
-                                selectionBox.LineThickness = 0.05 -- Thickness of the selection box lines
-                                selectionBox.Parent = handle -- Parent it to the handle
-                                
-                                -- Optional: Make the SelectionBox visible
-                                selectionBox.Enabled = true
-                            else
-                                warn("Handle not found in Blue Sword.")
-                            end
-                        end
+                        -- Create and configure the SelectionBox
+                        local selectionBox = Instance.new("SelectionBox")
+                        selectionBox.Adornee = handle
+                        selectionBox.Color3 = Color3.new(0, 0.313725, 0.47451) -- Set the color of the selection box
+                        selectionBox.LineThickness = 0.05 -- Thickness of the selection box lines
+                        selectionBox.Parent = handle -- Parent it to the handle
+
+                        -- Optional: Make the SelectionBox visible
+                        selectionBox.Enabled = true
+                    else
+                        warn("Handle not found in Blue Sword.")
                     end
                 end
-            })
+            end
         else
-            warn("Please enter a valid number.")
+            warn("Invalid input. Please enter a number.")
         end
-    end
+    end    
 })
 
 -- Initialize the GUI
