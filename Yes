@@ -292,5 +292,54 @@ MiscTab:AddButton({
     end
 })
 
+MiscTab:AddTextbox({
+    Name = "Hitbox Size",
+    Default = "25", -- Default value for size
+    TextDisappear = true,
+    Callback = function(input)
+        local reachValue = tonumber(input)
+
+        -- Check if the input is a valid number
+        if reachValue then
+            -- Create a button to activate the Item Hitbox feature
+            MiscTab:AddButton({
+                Name = "Item Hitbox",
+                Callback = function()
+                    -- Iterate through each child in the player's Backpack
+                    for _, v in pairs(player.Backpack:GetChildren()) do
+                        if v:IsA("Tool") and v.Name == "Blue Sword" then
+                            local handle = v:FindFirstChild("Handle")
+
+                            if handle then
+                                -- Create a Vector3 using the input value for all dimensions
+                                local sizeVector = Vector3.new(reachValue, reachValue, reachValue)
+
+                                -- Change the size of the Handle to the specified size
+                                handle.Size = sizeVector -- Set the desired size for the hitbox
+                                handle.Massless = true -- Optional: Make the handle massless
+                                handle.Transparency = 1 -- Make the handle transparent
+
+                                -- Create and configure the SelectionBox
+                                local selectionBox = Instance.new("SelectionBox")
+                                selectionBox.Adornee = handle
+                                selectionBox.Color3 = Color3.new(0, 0.313725, 0.47451) -- Set the color of the selection box
+                                selectionBox.LineThickness = 0.05 -- Thickness of the selection box lines
+                                selectionBox.Parent = handle -- Parent it to the handle
+                                
+                                -- Optional: Make the SelectionBox visible
+                                selectionBox.Enabled = true
+                            else
+                                warn("Handle not found in Blue Sword.")
+                            end
+                        end
+                    end
+                end
+            })
+        else
+            warn("Please enter a valid number.")
+        end
+    end
+})
+
 -- Initialize the GUI
 OrionLib:Init()
