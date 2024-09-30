@@ -108,6 +108,33 @@ Tab:AddToggle({
     end    
 })
 
+-- Toggle for spawning mini tank
+Tab:AddToggle({
+    Name = "Spawn Mini Tank",
+    Default = false,
+    Icon = "rbxassetid://4483345998", -- Mini Tank icon
+    Description = "Toggle to spawn a Mini Tank unit.",
+    Callback = function(state)
+        if state then
+            -- Start looping
+            spawnMiniTankLoop = true
+            spawn(function()
+                while spawnMiniTankLoop do
+                    local args = {
+                        [1] = 6,
+                        [2] = 2
+                    }
+                    spawnUnit(args)
+                    wait(spawnDelay)
+                end
+            end)
+        else
+            -- Stop looping
+            spawnMiniTankLoop = false
+        end
+    end    
+})
+
 -- Toggle for spawning assault rifle
 Tab:AddToggle({
     Name = "Spawn Assault Rifle",
@@ -222,6 +249,18 @@ MiscTab:AddButton({
         end)
         if not success then
             warn("Failed to load Infinite Yield: "..err)
+        end
+    end
+})
+
+MiscTab:AddButton({
+    Name = "Get Items",
+    Callback = function()
+        local success, err = pcall(function()
+            workspace.Gear.AddGear:FireServer()
+        end)
+        if not success then
+            warn("Failed to get items: "..err)
         end
     end
 })
