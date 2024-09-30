@@ -135,6 +135,33 @@ Tab:AddToggle({
     end    
 })
 
+-- Toggle for spawning swordsman
+Tab:AddToggle({
+    Name = "Spawn Swordsman",
+    Default = false,
+    Icon = "rbxassetid://4483345998", -- Swordsman icon
+    Description = "Toggle to spawn a Swordsman unit.",
+    Callback = function(state)
+        if state then
+            -- Start looping
+            spawnSwordsmanLoop = true
+            spawn(function()
+                while spawnSwordsmanLoop do
+                    local args = {
+                        [1] = 1,
+                        [2] = 1
+                    }
+                    spawnUnit(args)
+                    wait(spawnDelay)
+                end
+            end)
+        else
+            -- Stop looping
+            spawnSwordsmanLoop = false
+        end
+    end    
+})
+
 -- Toggle for spawning assault rifle
 Tab:AddToggle({
     Name = "Spawn Assault Rifle",
