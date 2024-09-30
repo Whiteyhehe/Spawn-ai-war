@@ -1,0 +1,230 @@
+-- Load Orion Lib
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+-- Create Window with custom design
+local Window = OrionLib:MakeWindow({
+    Name = "Exp. Ovr. Naot",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "ExpConfig",
+    IntroEnabled = false,
+    IntroText = "Welcome to Exp. Ovr. Naot",
+    Icon = "rbxassetid://4483345998", -- Custom icon
+    CloseCallback = function() print("GUI Closed") end,
+})
+
+-- Create "Spawn Unit" tab
+local Tab = Window:MakeTab({
+    Name = "Spawn Unit",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local spawnDelay = 1  -- Default delay for unit spawning
+
+-- Function to handle unit spawning
+local function spawnUnit(args)
+    workspace.SquadEvent:FireServer(unpack(args))
+end
+
+-- Toggle for spawning rifleman
+Tab:AddToggle({
+    Name = "Spawn Rifleman",
+    Default = false,
+    Icon = "rbxassetid://4483345998", -- Rifleman icon
+    Description = "Toggle to spawn a Rifleman unit.",
+    Callback = function(state)
+        if state then
+            -- Start looping
+            spawnRiflemanLoop = true
+            spawn(function()
+                while spawnRiflemanLoop do
+                    local args = {
+                        [1] = 2,
+                        [2] = 3
+                    }
+                    spawnUnit(args)
+                    wait(spawnDelay)
+                end
+            end)
+        else
+            -- Stop looping
+            spawnRiflemanLoop = false
+        end
+    end    
+})
+
+-- Toggle for spawning spider
+Tab:AddToggle({
+    Name = "Spawn Spider",
+    Default = false,
+    Icon = "rbxassetid://4483345998", -- Spider icon
+    Description = "Toggle to spawn a Spider unit.",
+    Callback = function(state)
+        if state then
+            -- Start looping
+            spawnSpiderLoop = true
+            spawn(function()
+                while spawnSpiderLoop do
+                    local args = {
+                        [1] = 8,
+                        [2] = 1
+                    }
+                    spawnUnit(args)
+                    wait(spawnDelay)
+                end
+            end)
+        else
+            -- Stop looping
+            spawnSpiderLoop = false
+        end
+    end    
+})
+
+-- Toggle for spawning shield laser man
+Tab:AddToggle({
+    Name = "Spawn Shield Laser Man",
+    Default = false,
+    Icon = "rbxassetid://4483345998", -- Shield Laser Man icon
+    Description = "Toggle to spawn a Shield Laser Man unit.",
+    Callback = function(state)
+        if state then
+            -- Start looping
+            spawnShieldLaserLoop = true
+            spawn(function()
+                while spawnShieldLaserLoop do
+                    local args = {
+                        [1] = 3,
+                        [2] = 1
+                    }
+                    spawnUnit(args)
+                    wait(spawnDelay)
+                end
+            end)
+        else
+            -- Stop looping
+            spawnShieldLaserLoop = false
+        end
+    end    
+})
+
+-- Toggle for spawning assault rifle
+Tab:AddToggle({
+    Name = "Spawn Assault Rifle",
+    Default = false,
+    Icon = "rbxassetid://4483345998", -- Assault Rifle icon
+    Description = "Toggle to spawn an Assault Rifle unit.",
+    Callback = function(state)
+        if state then
+            -- Start looping
+            spawnAssaultRifleLoop = true
+            spawn(function()
+                while spawnAssaultRifleLoop do
+                    local args = {
+                        [1] = 4,
+                        [2] = 3
+                    }
+                    spawnUnit(args)
+                    wait(spawnDelay)
+                end
+            end)
+        else
+            -- Stop looping
+            spawnAssaultRifleLoop = false
+        end
+    end    
+})
+
+-- Toggle for spawning battlesuit
+Tab:AddToggle({
+    Name = "Spawn Battlesuit",
+    Default = false,
+    Icon = "rbxassetid://4483345998", -- Battlesuit icon
+    Description = "Toggle to spawn a Battlesuit unit.",
+    Callback = function(state)
+        if state then
+            -- Start looping
+            spawnBattlesuitLoop = true
+            spawn(function()
+                while spawnBattlesuitLoop do
+                    local args = {
+                        [1] = 9,
+                        [2] = 2
+                    }
+                    spawnUnit(args)
+                    wait(spawnDelay)
+                end
+            end)
+        else
+            -- Stop looping
+            spawnBattlesuitLoop = false
+        end
+    end    
+})
+
+-- Toggle for spawning battlesuit V2
+Tab:AddToggle({
+    Name = "Spawn Battlesuit V2",
+    Default = false,
+    Icon = "rbxassetid://4483345998", -- Battlesuit V2 icon
+    Description = "Toggle to spawn a Battlesuit V2 unit.",
+    Callback = function(state)
+        if state then
+            -- Start looping
+            spawnBattlesuitV2Loop = true
+            spawn(function()
+                while spawnBattlesuitV2Loop do
+                    local args = {
+                        [1] = 7,
+                        [2] = 2
+                    }
+                    spawnUnit(args)
+                    wait(spawnDelay)
+                end
+            end)
+        else
+            -- Stop looping
+            spawnBattlesuitV2Loop = false
+        end
+    end    
+})
+
+-- Add a label for some extra design
+Tab:AddLabel("Unit Spawning Controls")
+
+-- Add a slider to control spawn delay
+Tab:AddSlider({
+    Name = "Spawn Delay",
+    Min = 0.1,
+    Max = 5,
+    Default = 1,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 0.1,
+    ValueName = "Seconds",
+    Callback = function(value)
+        spawnDelay = value  -- Update spawn delay
+    end
+})
+
+local MiscTab = Window:MakeTab({
+    Name = "Misc",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Button for Infinite Yield
+MiscTab:AddButton({
+    Name = "Infinite Yield",
+    Callback = function()
+        local success, err = pcall(function()
+            --[[ Discord invite for solara help/announcements: https://discord.gg/aEbvbzfNUS ]]--
+            loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
+        end)
+        if not success then
+            warn("Failed to load Infinite Yield: "..err)
+        end
+    end
+})
+
+-- Initialize the GUI
+OrionLib:Init()
