@@ -333,5 +333,70 @@ MiscTab:AddTextbox({
     end    
 })
 
+local SpecialUnitsTab = Window:MakeTab({
+    Name = "Spawn Special Units",
+    Icon = "rbxassetid://4483345998",
+    Premium = false
+})
+
+-- Function to deploy units
+local function deployUnit(args)
+    workspace.war.AttackForce.Deploy:FireServer(unpack(args))
+end
+
+-- Button for deploying Big Spider
+SpecialUnitsTab:AddButton({
+    Name = "Deploy Big Spider",
+    Callback = function()
+        local args = {6, 1}
+        deployUnit(args)
+    end,
+})
+
+-- Button for deploying Swordsman
+SpecialUnitsTab:AddButton({
+    Name = "Deploy Swordsman",
+    Callback = function()
+        local args = {1, 1}
+        deployUnit(args)
+    end,
+})
+
+-- Button for deploying Tanks
+SpecialUnitsTab:AddButton({
+    Name = "Deploy Tanks",
+    Callback = function()
+        local args = {2, 1}
+        deployUnit(args)
+    end,
+})
+
+-- Button for deploying Big Towers
+SpecialUnitsTab:AddButton({
+    Name = "Deploy Big Towers",
+    Callback = function()
+        local args = {5, 1}
+        deployUnit(args)
+    end,
+})
+
+-- Button for deploying Machine Gun
+SpecialUnitsTab:AddButton({
+    Name = "Deploy Machine Gun",
+    Callback = function()
+        local args = {4, 1}
+        deployUnit(args)
+    end,
+})
+
+-- Button for deploying Big Landship
+SpecialUnitsTab:AddButton({
+    Name = "Deploy Big Landship",
+    Callback = function()
+        local args = {3, 1}
+        deployUnit(args)
+    end,
+})
+
 -- Initialize the GUI
 OrionLib:Init()
