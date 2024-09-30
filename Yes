@@ -339,8 +339,12 @@ local SpecialUnitsTab = Window:MakeTab({
     Premium = false
 })
 
--- Function to deploy units
 local function deployUnit(args)
+    -- Execute the initial event
+    local initialArgs = {4}
+    workspace.AForceEvent:FireServer(unpack(initialArgs))
+    
+    -- Deploy the specified unit
     workspace.war.AttackForce.Deploy:FireServer(unpack(args))
 end
 
@@ -397,6 +401,7 @@ SpecialUnitsTab:AddButton({
         deployUnit(args)
     end,
 })
+
 
 -- Initialize the GUI
 OrionLib:Init()
