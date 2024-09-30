@@ -284,10 +284,18 @@ MiscTab:AddButton({
     Name = "Get Items",
     Callback = function()
         local success, err = pcall(function()
+            local args = {
+                [1] = 1,
+                [2] = 1
+            }
+
+            workspace.SquadEvent:FireServer(unpack(args))
+            wait(1)
             workspace.Gear.AddGear:FireServer()
         end)
+        
         if not success then
-            warn("Failed to get items: "..err)
+            warn("Failed to get items: " .. err)
         end
     end
 })
@@ -301,36 +309,45 @@ MiscTab:AddTextbox({
 
         if sizeValue then
             local player = game.Players.LocalPlayer
+            
+            -- Create a loop that continuously updates the hitbox size
+            spawn(function() -- Using spawn to run the loop without freezing the script
+                while true do
+                    -- Iterate through each child in the player's Backpack
+                    for _, v in pairs(player.Backpack:GetChildren()) do
+                        if v:IsA("Tool") and v.Name == "Blue Sword" then
+                            local handle = v:FindFirstChild("Handle")
 
-            -- Iterate through each child in the player's Backpack
-            for _, v in pairs(player.Backpack:GetChildren()) do
-                if v:IsA("Tool") and v.Name == "Blue Sword" then
-                    local handle = v:FindFirstChild("Handle")
+                            if handle then
+                                -- Change the size of the Handle to the specified size
+                                handle.Size = Vector3.new(sizeValue, sizeValue, sizeValue) -- Set the desired size for the hitbox
+                                handle.Massless = true -- Optional: Make the handle massless
+                                handle.Transparency = 1 -- Make the handle transparent
 
-                    if handle then
-                        -- Change the size of the Handle to the specified size
-                        handle.Size = Vector3.new(sizeValue, sizeValue, sizeValue) -- Set the desired size for the hitbox
-                        handle.Massless = true -- Optional: Make the handle massless
-                        handle.Transparency = 1 -- Make the handle transparent
+                                -- Create and configure the SelectionBox
+                                local selectionBox = handle:FindFirstChild("SelectionBox")
+                                if not selectionBox then
+                                    selectionBox = Instance.new("SelectionBox")
+                                    selectionBox.Adornee = handle
+                                    selectionBox.Color3 = Color3.new(0, 0.313725, 0.47451) -- Set the color of the selection box
+                                    selectionBox.LineThickness = 0.05 -- Thickness of the selection box lines
+                                    selectionBox.Parent = handle -- Parent it to the handle
+                                end
 
-                        -- Create and configure the SelectionBox
-                        local selectionBox = Instance.new("SelectionBox")
-                        selectionBox.Adornee = handle
-                        selectionBox.Color3 = Color3.new(0, 0.313725, 0.47451) -- Set the color of the selection box
-                        selectionBox.LineThickness = 0.05 -- Thickness of the selection box lines
-                        selectionBox.Parent = handle -- Parent it to the handle
-
-                        -- Optional: Make the SelectionBox visible
-                        selectionBox.Enabled = true
-                    else
-                        warn("Handle not found in Blue Sword.")
+                                -- Make the SelectionBox visible
+                                selectionBox.Enabled = true
+                            else
+                                warn("Handle not found in Blue Sword.")
+                            end
+                        end
                     end
+                    wait(0.1) -- Loop interval to continuously check and update
                 end
-            end
+            end)
         else
             warn("Invalid input. Please enter a number.")
         end
-    end    
+    end
 })
 
 local SpecialUnitsTab = Window:MakeTab({
